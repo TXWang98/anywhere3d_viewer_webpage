@@ -1,0 +1,128 @@
+{
+    "referring_expressions": {
+        "00": "Select the left basin of the white double sink, facing it from where the kitchen counter is located.",
+        "01": "Open the toilet lid, which is situated to the left side of the toilet seat while standing in front of the toilet.",
+        "02": "Identify the lower front panel of the bathtub, which displays sunflower decorations.",
+        "03": "Facing the green towel placed on the wooden stool, select the triangular top surface of the stool that supports the towel.",
+        "04": "Select the mirror surface on the white storage cabinet that stands next to the bathtub.",
+        "05": "Choose the topmost shelf inside the rectangular glass cabinet located to the left of the cabinet with a mirror.",
+        "06": "Identify the yellow flower decoration located on the back side of the tub, adjacent to the wall.",
+        "07": "Select the triangular wooden leg located at the rear left side of the stool from the perspective of the cabinet with a mirror.",
+        "08": "Choose the leftmost door panel of the cabinet with a glass door, standing directly in front.",
+        "09": "Open the second shelf from the bottom of the wooden mirror cabinet and select the inner back panel facing the mirror."
+    },
+    "scenegraphs": {
+        "objects_info": [
+            {
+                "id": 1,
+                "label": "sink",
+                "position": [
+                    -0.736966609954834,
+                    0.15353646874427795,
+                    1.304394006729126
+                ],
+                "size": [
+                    0.5672352313995361,
+                    0.679639995098114,
+                    0.1812119483947754
+                ],
+                "mesh": null,
+                "count": 1,
+                "caption": ""
+            },
+            {
+                "id": 2,
+                "label": "toilet",
+                "position": [
+                    -0.7677590250968933,
+                    0.9128443002700806,
+                    0.7707144916057587
+                ],
+                "size": [
+                    0.6073733568191528,
+                    0.4091310501098633,
+                    0.41540902853012085
+                ],
+                "mesh": null,
+                "count": 1,
+                "caption": ""
+            },
+            {
+                "id": 3,
+                "label": "bathtub",
+                "position": [
+                    1.3205498456954956,
+                    -0.4583049416542053,
+                    0.904902994632721
+                ],
+                "size": [
+                    1.8416330814361572,
+                    0.9638644456863403,
+                    0.5773659944534302
+                ],
+                "mesh": null,
+                "count": 1,
+                "caption": ""
+            },
+            {
+                "id": 4,
+                "label": "stool",
+                "position": [
+                    2.321824312210083,
+                    0.35568252205848694,
+                    0.8014944791793823
+                ],
+                "size": [
+                    0.4310946464538574,
+                    0.6630033850669861,
+                    0.4072890281677246
+                ],
+                "mesh": null,
+                "count": 1,
+                "caption": ""
+            },
+            {
+                "id": 5,
+                "label": "cabinet",
+                "position": [
+                    2.1705154180526733,
+                    1.2394933104515076,
+                    1.9339150786399841
+                ],
+                "size": [
+                    0.8325684070587158,
+                    0.9003180265426636,
+                    2.627450108528137
+                ],
+                "mesh": null,
+                "count": 2,
+                "caption": ""
+            },
+            {
+                "id": 6,
+                "label": "cabinet",
+                "position": [
+                    0.12428992986679077,
+                    1.3967415690422058,
+                    1.7061599791049957
+                ],
+                "size": [
+                    0.31715404987335205,
+                    0.38787877559661865,
+                    1.7923199534416199
+                ],
+                "mesh": null,
+                "count": 2,
+                "caption": ""
+            }
+        ],
+        "inst_to_label": {
+            "1": "sink",
+            "2": "toilet",
+            "3": "bathtub",
+            "4": "stool",
+            "5": "cabinet",
+            "6": "cabinet"
+        }
+    }
+}

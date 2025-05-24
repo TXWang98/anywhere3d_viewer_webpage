@@ -1,0 +1,27 @@
+doctype html
+html(lang="en")
+	head
+		//- link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css")
+		script(src='/offline/jquery-3.3.1.slim.min.js')
+		script(src='/offline/popper.min.js')
+		script(src='/offline/bootstrap.min.js')
+		link(rel='stylesheet', href='/offline/bootstrap.min.css')
+		link(rel="stylesheet" href="/offline/jquery-ui.min.css")
+		//- link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css")
+		//- link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css")
+		link(rel="stylesheet" href="/css/MeshViewer.css")
+		script(src="/offline/popper.min.js")
+		title= "SQA3D | Tutorial"
+		meta(charset= "UTF-8")
+	body
+		script(src="/build/Bundle.js")
+		nav.navbar.fixed-top(id="navbar", style="background:#001a44; height: 60px")
+			a.navbar-brand(href='',style='color:#ffffff;font-size: 20px;') &nbsp;SQA3D - Tutorial
+		div(id="id_div_root")
+
+		script.
+			$(window).on('load', function () {
+				var viewer = null;
+				viewer = new Tutorial();
+				viewer.init(!{params});
+			});
