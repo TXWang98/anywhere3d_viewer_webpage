@@ -20,6 +20,7 @@ const MongoClient = require("mongodb").MongoClient
 const ObjectId = require("mongodb").ObjectID;
 const DB_URL = "mongodb+srv://wtx19980928:HPMCao1PK9jvC3W9@cluster0.gw0qzb9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0" || 'mongodb://127.0.0.1:27017';
 
+
 let DB_NAME = 'sqa3d';
 //let Object_DB_collection = 'ScanNet_objects_full';
 let Task_DB_collection = 'SQA3D_tasks';
@@ -201,13 +202,19 @@ router.get("/resource/mesh/:datasetname/:scene_id/:scene_mesh", function(req, re
 	//console.log("req in scene mesh",req)
 	//console.log("__dirname", __dirname) 
 	//output: __dirname /home/wangtianxu/SQA3D_Viewer/server
-	let routed = path.join(__dirname, 'static', req.params.datasetname, 'scans', req.params.scene_id, req.params.scene_mesh);
-	res.sendFile(routed);
+	let aliyun_scans_url = `https://anywhere3d-pointcloud.oss-cn-hongkong.aliyuncs.com/${req.params.datasetname}/scans/${req.params.scene_id}/${req.params.scene_mesh}`;
+	res.redirect(aliyun_scans_url)
+	// let routed = path.join(__dirname, 'static', req.params.datasetname, 'scans', req.params.scene_id, req.params.scene_mesh);
+	// res.sendFile(routed);
 });
 
 router.get("/resource/object/:datasetname/:scene_id/:object_mesh", function(req, res) {
-	let routed = path.join(__dirname, 'static', req.params.datasetname, 'objects', req.params.scene_id, req.params.object_mesh);
-	res.sendFile(routed);
+
+	let aliyun_objects_url = `https://anywhere3d-pointcloud.oss-cn-hongkong.aliyuncs.com/${req.params.datasetname}/objects/${req.params.scene_id}/${req.params.object_mesh}`;
+	res.redirect(aliyun_objects_url)
+
+	// let routed = path.join(__dirname, 'static', req.params.datasetname, 'objects', req.params.scene_id, req.params.object_mesh);
+	// res.sendFile(routed);
 });
 
 /*
@@ -224,8 +231,10 @@ router.get("/resource/referring_expressions/:datasetname/:scene_id/:referring_ex
 */
 
 router.get("/resource/ref_exp_graphs/:datasetname/:scene_id/:ref_exp_graphs", function(req, res) {
-	let routed = path.join(__dirname, 'static', req.params.datasetname, 'ref_exp_graphs', req.params.scene_id, req.params.ref_exp_graphs);
-	res.sendFile(routed);
+	let aliyun_ref_exp_graphs_url = `https://anywhere3d-pointcloud.oss-cn-hongkong.aliyuncs.com/${req.params.datasetname}/ref_exp_graphs/${req.params.scene_id}/${req.params.ref_exp_graphs}`;
+	res.redirect(aliyun_ref_exp_graphs_url)
+	// let routed = path.join(__dirname, 'static', req.params.datasetname, 'ref_exp_graphs', req.params.scene_id, req.params.ref_exp_graphs);
+	// res.sendFile(routed);
 });
 
 
@@ -303,8 +312,8 @@ function render_scene_with_task(
 	db_client,
 	datasetname,
 	scene_id,
-	//referring_expressions_id,
-	scene_list,
+	// referring_expressions_id,
+	// scene_list,
 	sqa_db_collection_name,
 	hash1,
 	hash2,
@@ -350,7 +359,7 @@ function render_scene_with_task(
 				console.log(append_head("succeeded to query " + scene_object.length + " object selections in " + req.params.scene_id));
 				let params = {
 					datasetname: datasetname,
-					scene_list: scene_list,
+					// scene_list: scene_list,
 					//referring_expressions_id: referring_expressions_id,
 					scene_id: scene_id,
 					scene_object: scene_object,
@@ -1173,8 +1182,11 @@ router.get("/meshviewer/:extra", function(req, res) {
 			let sqa_db_collection_name = 'annotation_result';
 
 			//console.log("try ___dirname is what", __dirname)
-			const scene_list_path = path.join(__dirname, 'static', datasetname, 'scans')
-			const scene_list = fs.readdirSync(scene_list_path);
+
+			// const scene_list_path = path.join(__dirname, 'static', datasetname, 'scans')
+			// const scene_list = fs.readdirSync(scene_list_path);
+			
+			
 			// const scene_list = fs.readdirSync(scene_list_path).filter(file => {
 			// 	return fs.statSync(path.join(scene_list_path, file)).isDirectory()
 			// 	})
@@ -1185,8 +1197,8 @@ router.get("/meshviewer/:extra", function(req, res) {
 				client,
 				datasetname,
 				scene_id,
-				//referring_expressions_id,
-				scene_list,
+				// referring_expressions_id,
+				// scene_list,
 				sqa_db_collection_name,
 			);
 		}
