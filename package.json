@@ -32,6 +32,7 @@
     "npm-install-missing": "^0.1.4",
     "numeric": "^1.2.6",
     "plotly.js": "^1.42.5",
+    "pug": "^3.0.3",
     "react": "^16.2.0",
     "react-autosuggest": "^9.4.2",
     "react-dom": "^16.2.0",
