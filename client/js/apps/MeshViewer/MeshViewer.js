@@ -110,7 +110,28 @@ class MeshViewer {
 		})*/
 
 
-		fetch(path.join("/apps/resource/ref_exp_graphs/", this.resources.datasetname, this.resources.scene_id, this.resources.ref_exp_graphs)).then(response => {
+		// fetch(path.join("/apps/resource/ref_exp_graphs/", this.resources.datasetname, this.resources.scene_id, this.resources.ref_exp_graphs)).then(response => {
+		// 	if (!response.ok) {
+		// 		throw new Error('Network response was not ok')
+		// 	}
+		// 	console.log("response", response)
+		// 	return response.json(); // 将响应解析为 JSON
+		// })
+		// .then(data => {
+		// 	this.all_referring_expressions = data['referring_expressions']
+		// 	this.scenegraph = data['scenegraphs']
+		// 	//console.log(this.scenegraph)
+		// 	//console.log('scenegraph coming !!!!!!!!!!!:')
+		// 	//console.log(this.scenegraph)
+		// 	// 在这里你可以对 data 进行处理，比如将数据传递给其他函数
+		// })
+		// .catch(error => {
+		// 	console.error('Error loading referring expressions & scenegraphs placeholder JSON file:', error)
+		// })
+
+		const ref_exp_graph_url = `https://anywhere3d-pointcloud.oss-cn-hongkong.aliyuncs.com/${this.resources.datasetname}/ref_exp_graphs/${this.resources.scene_id}/${this.resources.ref_exp_graphs}`;
+
+		fetch(ref_exp_graph_url).then(response => {
 			if (!response.ok) {
 				throw new Error('Network response was not ok')
 			}
@@ -158,19 +179,19 @@ class MeshViewer {
 
 		// primary promises for loading meshes
 		let promises = [
-			window.load_ply_file(path.join("/apps/resource/mesh/", this.resources.datasetname, this.resources.scene_id, this.resources.scene_mesh)),
-			window.load_ply_file("/apps/resource/camera"),
+			// window.load_ply_file(path.join("/apps/resource/mesh/", this.resources.datasetname, this.resources.scene_id, this.resources.scene_mesh)),
+			// window.load_ply_file("/apps/resource/camera"),
 			
-			// window.load_ply_file("https://sqascannetviz.s3.us-west-1.amazonaws.com/scans/" + this.resources.scene_id + "/" + this.resources.scene_mesh),
-			// window.load_ply_file("https://sqascannetviz.s3.us-west-1.amazonaws.com/camera.ply")
+			window.load_ply_file("https://anywhere3d-pointcloud.oss-cn-hongkong.aliyuncs.com/" + this.resources.datasetname + "/scans/" +  this.resources.scene_id + "/" + this.resources.scene_mesh),
+			window.load_ply_file("https://anywhere3d-pointcloud.oss-cn-hongkong.aliyuncs.com/camera.ply")
 		];
 		
 		//console.log("object length", this.resources.scene_object.length)
 		for (let i = 0; i < this.resources.scene_object.length; i++) {
 			//console.log("object length", this.resources.scene_object.length)
 			promises.push(
-				window.load_ply_file(path.join("/apps/resource/object/", this.resources.datasetname, this.resources.scene_id, this.resources.scene_object[i]))
-				// window.load_ply_file("https://sqascannetviz.s3.us-west-1.amazonaws.com/ScanNet_objects/" + this.resources.scene_id + "/" + this.resources.scene_object[i])
+				// window.load_ply_file(path.join("/apps/resource/object/", this.resources.datasetname, this.resources.scene_id, this.resources.scene_object[i]))
+				window.load_ply_file("https://anywhere3d-pointcloud.oss-cn-hongkong.aliyuncs.com/" + this.resources.datasetname + "/objects/" + this.resources.scene_id + "/" + this.resources.scene_object[i])
 			)
 		}
 		this.loading_bar.style.width = "15%";
@@ -345,16 +366,16 @@ class MeshViewer {
 
 
 				
-				const pred_bbx_edges = new THREE.EdgesGeometry(new THREE.BoxGeometry(0.5, 0.5, 0.5));
-				const pred_lineMaterial = new THREE.LineBasicMaterial({ color: 0xff0000, opacity: 0.65, transparent: true, linewidth:4});
-				this.pred_bounding_box = new THREE.LineSegments(pred_bbx_edges, pred_lineMaterial);
+				// const pred_bbx_edges = new THREE.EdgesGeometry(new THREE.BoxGeometry(0.5, 0.5, 0.5));
+				// const pred_lineMaterial = new THREE.LineBasicMaterial({ color: 0xff0000, opacity: 0.65, transparent: true, linewidth:4});
+				// this.pred_bounding_box = new THREE.LineSegments(pred_bbx_edges, pred_lineMaterial);
 
 				//console.log("bounding box 坐标范围: ", this.bounding_box)
 
 				
 				//console.log("hello", this.bounding_box.position)
-				this.add_mesh(this.scene, [this.pred_bounding_box])
-				this.pred_bounding_box.position.set(0, 0, 0);
+				// this.add_mesh(this.scene, [this.pred_bounding_box])
+				// this.pred_bounding_box.position.set(0, 0, 0);
 
 
 				/////////////// *************************************************************************************************************************************** ////////////////
@@ -740,12 +761,12 @@ class MeshViewer {
 				this.add_listener(document.getElementById('reset_scale_cylinder_button'), "click", this.reset_scale_cylinder)
 
 
-				this.add_listener(document.getElementById('pred_bounding_box_x_length'), 'input', this.updatePredCubeSize)
-				this.add_listener(document.getElementById('pred_bounding_box_y_length'), 'input', this.updatePredCubeSize)
-				this.add_listener(document.getElementById('pred_bounding_box_z_length'), 'input', this.updatePredCubeSize)
-				this.add_listener(document.getElementById('pred_bounding_box_center_x_position'), 'input', this.updatePredCubePosition)
-				this.add_listener(document.getElementById('pred_bounding_box_center_y_position'), 'input', this.updatePredCubePosition)
-				this.add_listener(document.getElementById('pred_bounding_box_center_z_position'), 'input', this.updatePredCubePosition)
+				// this.add_listener(document.getElementById('pred_bounding_box_x_length'), 'input', this.updatePredCubeSize)
+				// this.add_listener(document.getElementById('pred_bounding_box_y_length'), 'input', this.updatePredCubeSize)
+				// this.add_listener(document.getElementById('pred_bounding_box_z_length'), 'input', this.updatePredCubeSize)
+				// this.add_listener(document.getElementById('pred_bounding_box_center_x_position'), 'input', this.updatePredCubePosition)
+				// this.add_listener(document.getElementById('pred_bounding_box_center_y_position'), 'input', this.updatePredCubePosition)
+				// this.add_listener(document.getElementById('pred_bounding_box_center_z_position'), 'input', this.updatePredCubePosition)
 
 
 				//this.btn.anywhere3D_submit = document.getElementById("btn_anywhere3D_submit");
@@ -1637,7 +1658,7 @@ class MeshViewer {
 			</div>
 			</b>
 
-			<div>
+			<!--div>
 				<label for="pred_bounding_box_center_x_position">pred_center_x: </label>
 				<input type="number" id="pred_bounding_box_center_x_position" step="0.01">
 				<label for="pred_bounding_box_center_y_position">pred_center_y: </label>
@@ -1650,7 +1671,7 @@ class MeshViewer {
 				<input type="number" id="pred_bounding_box_y_length" step="0.01">
 				<label for="pred_bounding_box_length_z">pred_length_z:</span>
 				<input type="number" id="pred_bounding_box_z_length" step="0.01">
-			</div>
+			</div-->
 		</p>
 		<h1><hr/></h1>
 		<div style="display: flex; width: 100%;">

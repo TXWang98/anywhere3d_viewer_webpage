@@ -12,6 +12,13 @@ client/build/
 server/ScanNet*
 server/backup/
 
+# Static Data (point clouds, etc.)
+server/static/scannet/objects/
+server/static/3RScan/objects/
+server/static/multiscan/objects/
+server/static/arkitscene_train/objects/
+server/static/arkitscene_valid/objects/
+
 # cache
 python/SensorData.pyc
 python/__pycache__

@@ -137,13 +137,29 @@ def main():
     arkitscene_valid_col = mydb['arkitscene_valid_objects_full']
     arkitscene_valid_col.drop()
 
+    BASE_POINTCLOUD_URL = "https://anywhere3d-pointcloud.oss-cn-hongkong.aliyuncs.com"
+
 
     # annotation_col = mydb['annotation_result']
     # annotation_col.drop()
 
+
+
+    # ply_paths = glob.glob('../server/static/arkitscene_valid/objects/*/*.ply')
+
+    # # 格式化为相对路径（可选）
+    # ply_paths = [path.replace('../server/static/', '') for path in ply_paths]
+
+    # # 保存到 JSON 文件
+    # with open('../server/static/arkitscene_valid_all_pointcloud_paths.json', 'w') as f:
+    #     json.dump(ply_paths, f, indent=2)
+
+    # print(f"已收集 {len(ply_paths)} 个点云文件路径并保存到 all_pointcloud_paths.json")
+
     
 
 
+    
 
 
     #fl_scannet = glob.glob('/home/wangtianxu/SQA3D_Viewer/server/static/scannet/objects/*')
@@ -302,59 +318,8 @@ def main():
             })
     
 
-    '''
-    
-    fl_arkitscene_train = glob.glob('../server/static/arkitscene_train/objects/*')
-    train = val = test = 0
-    # split = json.load(open('./scene_split.json', 'r'))
-    #if args.type == 0:
-    print(len(fl_arkitscene_train))
-    for i in fl_arkitscene_train:
-        sid = i.split('/')[-1] #scene0027_00
-        fns = osp.join(i, '*') #/home/wangtianxu/SQA3D_Viewer/server/static/scannet/ScanNet_objects/scene0027_00/*
-        all_oname = []
-        all_oid = []
-        #print(i,fns) 
-        #i: /home/wangtianxu/SQA3D_Viewer/server/static/scannet/ScanNet_objects/scene0027_00
-        #fns: /home/wangtianxu/SQA3D_Viewer/server/static/scannet/ScanNet_objects/scene0027_00/*
-        for j in glob.glob(fns):
-            #print(j) # /home/wangtianxu/SQA3D_Viewer/server/static/scannet/ScanNet_objects/scene0554_00/13_towel.ply
-            fn = j.split('/')[-1] #13_towel.ply
-            oid = fn.split('_')[0] #13
-            #print(oid)
-            oname = ' '.join(fn.split('.')[0].split('_')[1:]) #night stand
-            # exlude those do not appeat in scannrefer
-            # if '_'.join(oname.split(' ')) not in obj_scanrefer:
-            #     continue
+   
 
-            # exclude selected
-            if oname in excluded_objs:
-                continue
-
-            all_oid.append(oid)
-            all_oname.append(oname)
-
-        remove_book = True if "books" in all_oname else False
-        for oid, oname in zip(all_oid, all_oname):
-            if remove_book and oname == 'book':
-                continue
-            if oname == 'books':
-                continue
-            # if sid in split['train']:
-            #     train += 1
-            # elif sid in split['val']:
-            #     val += 1
-            # elif sid in split['test']:
-            #     test += 1
-            # else:
-            #     raise NotImplementedError
-            arkitscene_train_col.insert_one({
-                'scene_id': sid,
-                'object_id': oid,
-                'object_name': oname,
-            })
-
-    '''
 
     #fl_arkitscene_valid = glob.glob('/home/wangtianxu/SQA3D_Viewer/server/static/arkitscene_valid/objects/*')
     fl_arkitscene_valid = glob.glob('../server/static/arkitscene_valid/objects/*')
@@ -411,8 +376,8 @@ def main():
 
 
     
-    print("All data inserted successfully.")
-    myclient.close()
+    # print("All data inserted successfully.")
+    # myclient.close()
 
 if __name__ == '__main__':
     main()
