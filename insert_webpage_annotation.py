@@ -116,27 +116,24 @@ def main():
     myclient = pymongo.MongoClient(DB_url, tlsCAFile=certifi.where())
     mydb = myclient['sqa3d']
 
-    Scannetcol = mydb['ScanNet_objects_full']
-    Scannetcol.drop()
+    # Scannetcol = mydb['ScanNet_objects_full']
+    # Scannetcol.drop()
 
-    scannetcol = mydb['scannet_objects_full']
-    scannetcol.drop()
-
-    #null_col = mydb['null']
-    #null_col.drop()
+    # scannetcol = mydb['scannet_objects_full']
+    # scannetcol.drop()
 
 
-    multiscancol = mydb['multiscan_objects_full']
-    multiscancol.drop()
+    # multiscancol = mydb['multiscan_objects_full']
+    # multiscancol.drop()
 
-    RScancol = mydb['3RScan_objects_full']
-    RScancol.drop()
+    # RScancol = mydb['3RScan_objects_full']
+    # RScancol.drop()
 
-    arkitscene_train_col = mydb['arkitscene_train_objects_full']
-    arkitscene_train_col.drop()
+    # arkitscene_train_col = mydb['arkitscene_train_objects_full']
+    # arkitscene_train_col.drop()
 
-    arkitscene_valid_col = mydb['arkitscene_valid_objects_full']
-    arkitscene_valid_col.drop()
+    # arkitscene_valid_col = mydb['arkitscene_valid_objects_full']
+    # arkitscene_valid_col.drop()
 
 
 
@@ -149,6 +146,23 @@ def main():
     
     for annotation_cnt_num, sample in enumerate(webpage_annotation_json):
         print(annotation_cnt_num)
+        if sample["datasetname"] == "scannet":
+            bias_x = 0
+            bias_y = 0
+            bias_z = 0
+        elif sample["datasetname"] == "multiscan":
+            bias_x = -0.33
+            bias_y = 0.64
+            bias_z = -1.18
+        elif sample["datasetname"] == "3RScan":
+            bias_x = -0.33
+            bias_y = 0.15
+            bias_z = -3.14    
+        elif sample["datasetname"] == "arkitscene_valid":
+            bias_x = 1.9
+            bias_y = 0.75
+            bias_z = -1.75    
+
         data_insert = {
             "new_referring_expressions": sample['referring_expressions'],
             "datasetname": sample['datasetname'],
@@ -158,9 +172,9 @@ def main():
             "bounding_box_width": sample['box_width'],
             "bounding_box_length": sample['box_length'],
             "bounding_box_height": sample['box_height'],
-            "bounding_box_xpos": sample['box_x'],
-            "bounding_box_ypos": sample['box_y'],
-            "bounding_box_zpos": sample['box_z'],
+            "bounding_box_xpos": sample['box_x'] + bias_x,
+            "bounding_box_ypos": sample['box_y'] + bias_y,
+            "bounding_box_zpos": sample['box_z'] + bias_z,
             "bounding_box_rotation_angle": sample['box_rot_angle'],
             "scale_cylinder_xpos": sample['cylinder_x'],
             "scale_cylinder_ypos": sample['cylinder_y'],
@@ -172,12 +186,14 @@ def main():
             "window_camera_quaternion":{'_x': sample['window_camera_quaternion_x'], '_y': sample['window_camera_quaternion_y'], '_z': sample['window_camera_quaternion_z'], '_w': sample['window_camera_quaternion_w']},
             "window_camera_target":{'x': sample['window_camera_target_x'], 'y': sample['window_camera_target_y'], 'z': sample['window_camera_target_z']}
         }
+        
         result_insert = annotation_col.insert_one(data_insert)
         print(f"Inserted document ID: {result_insert.inserted_id}")
     
 
     
 
+    '''
 
 
 
@@ -360,7 +376,7 @@ def main():
                 'object_name': oname,
             })
     
-
+    '''
 
 
     
