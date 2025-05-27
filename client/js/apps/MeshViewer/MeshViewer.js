@@ -1792,14 +1792,18 @@ class MeshViewer {
 		//const annotation_cache_data = JSON.parse(annotation_cache_div.textContent)
 		annotation_cache_data[this.cur_referring_expressions_cnt] = record
 		annotation_cache_div.textContent = JSON.stringify(annotation_cache_data)
+
+
+		console.log("Recorded anywhere3d annotation!");
+		alert(["Recorded.", record.datasetname, record.scene_id, record.cur_referring_expressions_cnt,". However, This is a preview annotation interface. Save functionality is disabled, and no data will be saved!"].join(' '));
 		
 
 		
-		console.log("this.resources.sqa_db_collection_name", this.resources.sqa_db_collection_name)
-		window.xhr_post(JSON.stringify(record_for_db), "/apps/database/sqa3d/save/anywhere3D_collection={0}".format(this.resources.sqa_db_collection_name)).then(() => {
-			console.log("inserted sqa!");
-			alert(["Recorded.", record.datasetname, record.scene_id, record.cur_referring_expressions_cnt].join(' '));
-		});
+		// console.log("this.resources.sqa_db_collection_name", this.resources.sqa_db_collection_name)
+		// window.xhr_post(JSON.stringify(record_for_db), "/apps/database/sqa3d/save/anywhere3D_collection={0}".format(this.resources.sqa_db_collection_name)).then(() => {
+		// 	console.log("inserted sqa!");
+		// 	alert(["Recorded.", record.datasetname, record.scene_id, record.cur_referring_expressions_cnt].join(' '));
+		// });
 		
 
 

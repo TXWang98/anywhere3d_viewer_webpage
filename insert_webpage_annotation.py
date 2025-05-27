@@ -7,6 +7,7 @@ import json
 import pymongo
 import argparse
 import certifi
+import os
 
 # obj_scanrefer = json.load(open('/home/robot/datasets/objs_scanrefer.json', 'r')).keys()
 # obj_referit3d = json.load(open('/home/robot/datasets/objs_referit3d.json', 'r')).keys()
@@ -139,21 +140,41 @@ def main():
 
 
 
-    # annotation_col = mydb['annotation_result']
-    # annotation_col.drop()
+    annotation_col = mydb['annotation_result']
+    annotation_col.drop()
 
-
-
-    # ply_paths = glob.glob('../server/static/arkitscene_valid/objects/*/*.ply')
-
-    # # 格式化为相对路径（可选）
-    # ply_paths = [path.replace('../server/static/', '') for path in ply_paths]
-
-    # # 保存到 JSON 文件
-    # with open('../server/static/arkitscene_valid_all_pointcloud_paths.json', 'w') as f:
-    #     json.dump(ply_paths, f, indent=2)
-
-    # print(f"已收集 {len(ply_paths)} 个点云文件路径并保存到 all_pointcloud_paths.json")
+    webpage_annotation_json_path = "./webpage_annotation.json"
+    with open(webpage_annotation_json_path, "r") as f:
+        webpage_annotation_json = json.load(f)
+    
+    for annotation_cnt_num, sample in enumerate(webpage_annotation_json):
+        print(annotation_cnt_num)
+        data_insert = {
+            "new_referring_expressions": sample['referring_expressions'],
+            "datasetname": sample['datasetname'],
+            "scene_id": sample['scene_id'],
+            "cur_referring_expressions_cnt": "0" + str(sample['expressions_cnt_in_annotation_interface']),
+            "original_referring_expressions": sample['referring_expressions'],
+            "bounding_box_width": sample['box_width'],
+            "bounding_box_length": sample['box_length'],
+            "bounding_box_height": sample['box_height'],
+            "bounding_box_xpos": sample['box_x'],
+            "bounding_box_ypos": sample['box_y'],
+            "bounding_box_zpos": sample['box_z'],
+            "bounding_box_rotation_angle": sample['box_rot_angle'],
+            "scale_cylinder_xpos": sample['cylinder_x'],
+            "scale_cylinder_ypos": sample['cylinder_y'],
+            "scale_cylinder_zpos": sample['cylinder_z'],
+            "scale_cylinder_height": sample['cylinder_length'],
+            "scale_cylinder_diameter": sample['cylinder_diameter'],
+            "scale_cylinder_rotation_angle": sample['cylinder_rot_angle'],
+            "window_camera_position":{'x': sample['window_camera_position_x'], 'y': sample['window_camera_position_y'], 'z': sample['window_camera_position_z']},
+            "window_camera_quaternion":{'_x': sample['window_camera_quaternion_x'], '_y': sample['window_camera_quaternion_y'], '_z': sample['window_camera_quaternion_z'], '_w': sample['window_camera_quaternion_w']},
+            "window_camera_target":{'x': sample['window_camera_target_x'], 'y': sample['window_camera_target_y'], 'z': sample['window_camera_target_z']}
+        }
+        result_insert = annotation_col.insert_one(data_insert)
+        print(f"Inserted document ID: {result_insert.inserted_id}")
+    
 
     
 
@@ -162,7 +183,7 @@ def main():
 
 
     #fl_scannet = glob.glob('/home/wangtianxu/SQA3D_Viewer/server/static/scannet/objects/*')
-    fl_scannet = glob.glob('../server/static/scannet/objects/*')
+    fl_scannet = glob.glob('./server/static/scannet/objects/*')
     print(len(fl_scannet))
     train = val = test = 0
     # split = json.load(open('./scene_split.json', 'r'))
@@ -198,14 +219,6 @@ def main():
                 continue
             if oname == 'books':
                 continue
-            # if sid in split['train']:
-            #     train += 1
-            # elif sid in split['val']:
-            #     val += 1
-            # elif sid in split['test']:
-            #     test += 1
-            # else:
-            #     raise NotImplementedError
             scannetcol.insert_one({
                 'scene_id': sid,
                 'object_id': oid,
@@ -216,7 +229,7 @@ def main():
 
 
     #fl_multiscan = glob.glob('/home/wangtianxu/SQA3D_Viewer/server/static/multiscan/objects/*')
-    fl_multiscan = glob.glob('../server/static/multiscan/objects/*')
+    fl_multiscan = glob.glob('./server/static/multiscan/objects/*')
     train = val = test = 0
     # split = json.load(open('./scene_split.json', 'r'))
     #if args.type == 0:
@@ -251,14 +264,6 @@ def main():
                 continue
             if oname == 'books':
                 continue
-            # if sid in split['train']:
-            #     train += 1
-            # elif sid in split['val']:
-            #     val += 1
-            # elif sid in split['test']:
-            #     test += 1
-            # else:
-            #     raise NotImplementedError
             multiscancol.insert_one({
                 'scene_id': sid,
                 'object_id': oid,
@@ -267,7 +272,7 @@ def main():
     
 
     #fl_3RScan = glob.glob('/home/wangtianxu/SQA3D_Viewer/server/static/3RScan/objects/*')
-    fl_3RScan = glob.glob('../server/static/3RScan/objects/*')
+    fl_3RScan = glob.glob('./server/static/3RScan/objects/*')
     train = val = test = 0
     # split = json.load(open('./scene_split.json', 'r'))
     #if args.type == 0:
@@ -302,14 +307,6 @@ def main():
                 continue
             if oname == 'books':
                 continue
-            # if sid in split['train']:
-            #     train += 1
-            # elif sid in split['val']:
-            #     val += 1
-            # elif sid in split['test']:
-            #     test += 1
-            # else:
-            #     raise NotImplementedError
             RScancol.insert_one({
                 'scene_id': sid,
                 'object_id': oid,
@@ -321,7 +318,7 @@ def main():
 
 
     #fl_arkitscene_valid = glob.glob('/home/wangtianxu/SQA3D_Viewer/server/static/arkitscene_valid/objects/*')
-    fl_arkitscene_valid = glob.glob('../server/static/arkitscene_valid/objects/*')
+    fl_arkitscene_valid = glob.glob('./server/static/arkitscene_valid/objects/*')
     train = val = test = 0
     # split = json.load(open('./scene_split.json', 'r'))
     #if args.type == 0:
@@ -357,14 +354,6 @@ def main():
                 continue
             if oname == 'books':
                 continue
-            # if sid in split['train']:
-            #     train += 1
-            # elif sid in split['val']:
-            #     val += 1
-            # elif sid in split['test']:
-            #     test += 1
-            # else:
-            #     raise NotImplementedError
             arkitscene_valid_col.insert_one({
                 'scene_id': sid,
                 'object_id': oid,
