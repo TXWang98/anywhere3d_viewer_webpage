@@ -9,12 +9,11 @@ class Tutorial {
         this.draw_div();
 
         // setup button
-
-        // this.btn = new Object();
-        // this.btn.next = document.getElementById("btn_next");
-        // this.btn.prev = document.getElementById("btn_prev");
-        // this.add_listener(this.btn.next, "click", this.on_click_btn_next);
-        // this.add_listener(this.btn.prev, "click", this.on_click_btn_prev);
+        this.btn = new Object();
+        this.btn.next = document.getElementById("btn_next");
+        this.btn.prev = document.getElementById("btn_prev");
+        this.add_listener(this.btn.next, "click", this.on_click_btn_next);
+        this.add_listener(this.btn.prev, "click", this.on_click_btn_prev);
 
         this.container = document.getElementById("tutorial_container");
 
@@ -60,23 +59,21 @@ class Tutorial {
      *************  Event handlers  *************
      ********************************************/
 
+    on_click_btn_prev() {
+        if (this.current_page != 1) {
+            this.current_page -= 1;
+            this.clear_page();
+            this.tutorial["render_page_" + this.current_page]();
+        }
+    }
 
-
-    // on_click_btn_prev() {
-    //     if (this.current_page != 1) {
-    //         this.current_page -= 1;
-    //         this.clear_page();
-    //         this.tutorial["render_page_" + this.current_page]();
-    //     }
-    // }
-
-    // on_click_btn_next() {
-    //     if (this.current_page != this.total_pages) {
-    //         this.current_page += 1;
-    //         this.clear_page();
-    //         this.tutorial["render_page_" + this.current_page]();
-    //     }
-    // }
+    on_click_btn_next() {
+        if (this.current_page != this.total_pages) {
+            this.current_page += 1;
+            this.clear_page();
+            this.tutorial["render_page_" + this.current_page]();
+        }
+    }
 
     draw_div() {
         ReactDOM.render(<RootUI />, document.getElementById('id_div_root'));
@@ -104,90 +101,94 @@ class GenericTutorial {
     }
 
     render_page_1() {
-        this.insert_page_title("Anywhere3D Human Annotation Tutorial");
-        this.insert_one_text_entry("The human annotation interface comprises four main components: a control bar, a 3D scene visualization module, an object list, and a referring expression editing box.");
+        this.insert_page_title("Task overview");
+        this.insert_one_text_entry("In this task, you need to complete the following steps:");
 
-        this.insert_one_text_entry("<b>Control Bar</b>: includes three primary tools:<br>(1) a 3D bounding box annotation tool<br>(2) a distance measurement tool (i.e. Scale Cylinder)<br>(3) a coordinate axis visualization tool<br>Both the bounding box and distance measurement cylinder can be resized and repositioned using the control bar. Their positions can also be interactively adjusted with the mouse.<br><b style=\"color:red;\">W</b>, <b style=\"color:green;\">L</b>, and <b style=\"color:blue;\">H</b> represent the lengths of the bounding box along the x-, y-, and z-axes, respectively.<br><b style=\"color:red;\">X</b>, <b style=\"color:green;\">Y</b>, <b style=\"color:blue;\">Z</b> represent the relative positions of the bounding box and cylinder on x-, y-, z- axes, respectively. The progress bar will reset (return to the middle position) after dragging the mouse to move the bounding box or cylinder.<br>Clicking the 'Reset' button will restore both the size and position of the corresponding bounding box or cylinder to their initial values.");
-        this.insert_one_image_entry("/apps/resource/tutorial/control_bar.png", "500px", "700px");
+        this.insert_one_text_entry("<b>Step 1</b>: Explore a 3D scene. Try to get familiar with the <b>layout and objects</b> inside. You may refer to following tutorial pages on how to explore the scene.");
+        this.insert_one_image_entry("/apps/resource/tutorial/explore_scene.gif");
 
-        this.insert_one_text_entry("<b>3D Scene Visualization</b>: Scrolling the mouse wheel allows you to zoom in and out of the scene.<br>Pressing down the mouse wheel while dragging enables you to pan the scene.<br>Placing the left mouse button over an object will highlight its corresponding point cloud.<br>Pressing down the right mouse button and dragging allows you to rotate the scene.");
-        this.insert_one_image_entry("/apps/resource/tutorial/scene_visualization.png", "920px", "383px");
+        this.insert_one_text_entry("<b>Step 2</b>: Pick a certain <b>location and orientation</b> (we name them <b>\"context\"</b>) in the scene and navigate the <b style=\"color:green;\">green arrow</b> to the picked location and orientation.");
+        this.insert_one_image_entry("/apps/resource/tutorial/pick_arrow.gif");
 
-        this.insert_one_text_entry("<b>Object List</b>: The object list displays all objects in the scene, along with their associated labels and sizes(length along x-axes, y-axes and z-axes)");
-        this.insert_one_image_entry("/apps/resource/tutorial/object_list.png", "400px", "800px");
+        this.insert_one_text_entry("<b>Step 3</b>: Describe the <b>\"context\"</b> picked in <b>Step 2</b> with a sentence. The description <b>cannot be ambiguous</b> -- it should locate a <b>unique</b> context picked by you.");
+        this.insert_one_image_entry("/apps/resource/tutorial/pick_description.gif", "920px", "500px");
 
-       
-        this.insert_one_text_entry("<b>Referring Expression Editing Box</b>: For each scene, there are 10 interactive slots for human annotation, labeled from '00' to '09'. To begin, click on the ID you wish to annotate. After clicking the corresponding ID, a message will appear below indicating whether the selected ID already has existing annotations. You may then choose to start a new annotation or load a saved one if it exists. The interactive slot allows you to manually revise the referring expressions. After completing the bounding box, cylinder, and referring expression annotations, click 'Save Current ID Annotations' to save your work.");
-        this.insert_one_image_entry("/apps/resource/tutorial/expression_editing_box.png", "920px", "150px");  
+        this.insert_rejection_alert("If the descrption is ambiguous or does not match the picked location&orientation, it will be rejected. More on ambiguity will come later in this tutorial.")
+
+        this.insert_one_text_entry("<b>Step 4</b>: Based on the <b>\"context\"</b> in Step 2&3, ask a question about the 3D scene and answer it.");
+        this.insert_one_image_entry("/apps/resource/tutorial/qa.gif", "920px", "500px");
+
+        this.insert_rejection_alert("Questions that can be answered without considering the context will be rejected. More on this will come later in this tutorial.");
+
     }
 
-    // render_page_2() {
-    //     this.insert_page_title("About step 1: Exploring the scene");
-    //     this.insert_one_image_entry_with_title_description("Rotate", "<span style=\"color: red;\">Right click</span> and drag the scene to rotate", "/apps/resource/tutorial/rotate.gif");
-    //     this.insert_one_image_entry_with_title_description("Move", "<span style=\"color: red;\">Middle click</span> and drag the scene to move", "/apps/resource/tutorial/move.gif");
-    //     this.insert_one_image_entry_with_title_description("Zoom", "Hover the mouse on the scene and <span style=\"color: red;\">scroll the wheel</span> to zoom", "/apps/resource/tutorial/zoom.gif");
-    // }
+    render_page_2() {
+        this.insert_page_title("About step 1: Exploring the scene");
+        this.insert_one_image_entry_with_title_description("Rotate", "<span style=\"color: red;\">Right click</span> and drag the scene to rotate", "/apps/resource/tutorial/rotate.gif");
+        this.insert_one_image_entry_with_title_description("Move", "<span style=\"color: red;\">Middle click</span> and drag the scene to move", "/apps/resource/tutorial/move.gif");
+        this.insert_one_image_entry_with_title_description("Zoom", "Hover the mouse on the scene and <span style=\"color: red;\">scroll the wheel</span> to zoom", "/apps/resource/tutorial/zoom.gif");
+    }
 
-    // render_page_3() {
-    //     this.insert_page_title("About step 1(cont'd): Exploring objects in the scene");
-    //     this.insert_one_image_entry_with_title_description("Click an object in the scene", "<span style=\"color: red;\">Hover on and left click</span> an object in the scene for its name", "/apps/resource/tutorial/object_click.gif");
-    //     this.insert_one_image_entry_with_title_description("Highlight a group of objects", "<span style=\"color: red;\">Hover on</span> the object group in the list to hightlight their member objects", "/apps/resource/tutorial/object_group.gif");
-    //     this.insert_one_image_entry_with_title_description("Highlight an object instance", "<span style=\"color: red;\">Click</span> the object group to unfold the list and <span style=\"color: red;\">hover on</span> an item to highlight an object instance", "/apps/resource/tutorial/object_item.gif");
-    // }
+    render_page_3() {
+        this.insert_page_title("About step 1(cont'd): Exploring objects in the scene");
+        this.insert_one_image_entry_with_title_description("Click an object in the scene", "<span style=\"color: red;\">Hover on and left click</span> an object in the scene for its name", "/apps/resource/tutorial/object_click.gif");
+        this.insert_one_image_entry_with_title_description("Highlight a group of objects", "<span style=\"color: red;\">Hover on</span> the object group in the list to hightlight their member objects", "/apps/resource/tutorial/object_group.gif");
+        this.insert_one_image_entry_with_title_description("Highlight an object instance", "<span style=\"color: red;\">Click</span> the object group to unfold the list and <span style=\"color: red;\">hover on</span> an item to highlight an object instance", "/apps/resource/tutorial/object_item.gif");
+    }
 
-    // render_page_4() {
-    //     this.insert_page_title("About step 2: Moving the green arrow");
-    //     this.insert_one_image_entry_with_title_description("Move", "<span style=\"color: red;\">Click and drag</span> the arrow to move", "/apps/resource/tutorial/arrow_move.gif");
-    //     this.insert_one_image_entry_with_title_description("Rotate", "<span style=\"color: red;\">Ctrl+Shift+← or →</span> to rotate", "/apps/resource/tutorial/arrow_rotate.gif");
-    // }
+    render_page_4() {
+        this.insert_page_title("About step 2: Moving the green arrow");
+        this.insert_one_image_entry_with_title_description("Move", "<span style=\"color: red;\">Click and drag</span> the arrow to move", "/apps/resource/tutorial/arrow_move.gif");
+        this.insert_one_image_entry_with_title_description("Rotate", "<span style=\"color: red;\">Ctrl+Shift+← or →</span> to rotate", "/apps/resource/tutorial/arrow_rotate.gif");
+    }
 
 
     // <span style=\"color: red\">×</span>
     // <span style=\"color: green\">√</span>
 
-    // render_page_5() {
-    //     this.insert_page_title("About step 3: How to describe a location and orientation (a.k.a. \"context\")?");
+    render_page_5() {
+        this.insert_page_title("About step 3: How to describe a location and orientation (a.k.a. \"context\")?");
 
-    //     this.insert_rejection_alert("Ambiguous or wrong description will be rejected.")
-    //     this.insert_one_text_entry("You may use one or more objects to help determine a unique location and orientation. More reference objects can help eliminate the ambiguity.");
-    //     this.insert_one_image_entry_with_description("<b>I'm facing the front door <span style=\"color: red\">×</span></b> -- this is also valid for locations that are further from the door<br> <b>I'm facing the door and there are some trash cans on my left <span style=\"color: green\">√</span></b> <br> <b>I'm standing in front of the door and there is cabinet on my right <span style=\"color: green\">√</span></b>", "/apps/resource/tutorial/desc_example_1.png", "880px", "550px");
-    //     this.insert_one_image_entry_with_description("<b>I'm sitting on the toilet <span style=\"color: red\">×</span></b> -- there are more than one toilet in the scene<br> <b>I'm sitting on the toilet and there is a toilet paper holder on my right <span style=\"color: green\">√</span></b> <br> <b>I'm sitting on the toilet and there is a door on my left <span style=\"color: green\">√</span></b>", "/apps/resource/tutorial/desc_example_2.png", "920px", "550px");
-    //     this.insert_one_image_entry_with_description("<b>I'm standing on a rug <span style=\"color: red\">×</span></b> -- there are more than one rug in the scene and the orientation is unclear <br> <b>I'm standing on a rug, facing a sink and there is a door in my four o'clock direction <span style=\"color: green\">√</span></b> <br> <b>I'm standing on a rug, facing a sink and there is a trash can on my left <span style=\"color: green\">√</span> </b>", "/apps/resource/tutorial/desc_example_3.png", "920px", "550px");
+        this.insert_rejection_alert("Ambiguous or wrong description will be rejected.")
+        this.insert_one_text_entry("You may use one or more objects to help determine a unique location and orientation. More reference objects can help eliminate the ambiguity.");
+        this.insert_one_image_entry_with_description("<b>I'm facing the front door <span style=\"color: red\">×</span></b> -- this is also valid for locations that are further from the door<br> <b>I'm facing the door and there are some trash cans on my left <span style=\"color: green\">√</span></b> <br> <b>I'm standing in front of the door and there is cabinet on my right <span style=\"color: green\">√</span></b>", "/apps/resource/tutorial/desc_example_1.png", "880px", "550px");
+        this.insert_one_image_entry_with_description("<b>I'm sitting on the toilet <span style=\"color: red\">×</span></b> -- there are more than one toilet in the scene<br> <b>I'm sitting on the toilet and there is a toilet paper holder on my right <span style=\"color: green\">√</span></b> <br> <b>I'm sitting on the toilet and there is a door on my left <span style=\"color: green\">√</span></b>", "/apps/resource/tutorial/desc_example_2.png", "920px", "550px");
+        this.insert_one_image_entry_with_description("<b>I'm standing on a rug <span style=\"color: red\">×</span></b> -- there are more than one rug in the scene and the orientation is unclear <br> <b>I'm standing on a rug, facing a sink and there is a door in my four o'clock direction <span style=\"color: green\">√</span></b> <br> <b>I'm standing on a rug, facing a sink and there is a trash can on my left <span style=\"color: green\">√</span> </b>", "/apps/resource/tutorial/desc_example_3.png", "920px", "550px");
 
-    //     this.insert_bonus_reminder("Descriptions using common human activities on objects will be rewarded.");
-    //     this.insert_one_image_entry_with_description("<b>I'm heating my lunch and there is a fridge on my right <span style=\"color: green\">√</span></b> -- we use a microwave to heat the food", "/apps/resource/tutorial/desc_example_4.png", "920px", "500px");
+        this.insert_bonus_reminder("Descriptions using common human activities on objects will be rewarded.");
+        this.insert_one_image_entry_with_description("<b>I'm heating my lunch and there is a fridge on my right <span style=\"color: green\">√</span></b> -- we use a microwave to heat the food", "/apps/resource/tutorial/desc_example_4.png", "920px", "500px");
 
-    //     this.insert_one_image_entry_with_description("<b>I'm brushing my teeth and there is a toilet on my right <span style=\"color: green\">√</span></b> -- we use a sink in the restroom to brush our teeth", "/apps/resource/tutorial/desc_example_5.png", "920px", "500px");
+        this.insert_one_image_entry_with_description("<b>I'm brushing my teeth and there is a toilet on my right <span style=\"color: green\">√</span></b> -- we use a sink in the restroom to brush our teeth", "/apps/resource/tutorial/desc_example_5.png", "920px", "500px");
 
-    //     this.insert_one_image_entry_with_description("<b>I'm scanning some paperwork and there is a printer on my left <span style=\"color: green\">√</span></b> -- we use a copier to scan some files", "/apps/resource/tutorial/desc_example_6.png", "920px", "500px");
-    // }
+        this.insert_one_image_entry_with_description("<b>I'm scanning some paperwork and there is a printer on my left <span style=\"color: green\">√</span></b> -- we use a copier to scan some files", "/apps/resource/tutorial/desc_example_6.png", "920px", "500px");
+    }
 
-    // render_page_6() {
-    //     this.insert_page_title("About step 4: How to ask a question -- general guidance");
+    render_page_6() {
+        this.insert_page_title("About step 4: How to ask a question -- general guidance");
 
-    //     this.insert_rejection_alert("Questions that can be answered without considering the context (determined by the picked location and orientatoion) will be rejected.");
-    //     this.insert_one_image_entry_with_description("<b>Context</b>: I'm sitting on the chair and using my laptaop  <br> <b>How many toilets are there in the room? <span style=\"color: red\">×</span></b><br> <b>What is color of the blanket on the bed? <span style=\"color: red\">×</span></b> <br> <b>Is there a laptop on the desk? <span style=\"color: red\">×</span></b><br><b> Is there a TV behind me? <span style=\"color: green\">√</span></b><br><b> How many backpacks are there on my left? <span style=\"color: green\">√</span></b><br><b> Which direction should I go If I want to leave the room? <span style=\"color: green\">√</span></b>", "/apps/resource/tutorial/q_example_1.png", "920px", "500px");
+        this.insert_rejection_alert("Questions that can be answered without considering the context (determined by the picked location and orientatoion) will be rejected.");
+        this.insert_one_image_entry_with_description("<b>Context</b>: I'm sitting on the chair and using my laptaop  <br> <b>How many toilets are there in the room? <span style=\"color: red\">×</span></b><br> <b>What is color of the blanket on the bed? <span style=\"color: red\">×</span></b> <br> <b>Is there a laptop on the desk? <span style=\"color: red\">×</span></b><br><b> Is there a TV behind me? <span style=\"color: green\">√</span></b><br><b> How many backpacks are there on my left? <span style=\"color: green\">√</span></b><br><b> Which direction should I go If I want to leave the room? <span style=\"color: green\">√</span></b>", "/apps/resource/tutorial/q_example_1.png", "920px", "500px");
 
-    //     this.insert_one_image_entry_with_description("<b>Context</b>: I'm watering the plant and standing by a round table <br> <b>How many armchairs are there in the room? <span style=\"color: red\">×</span></b><br> <b>How many armchairs are there on my left? <span style=\"color: green\">√</span></b><br> <b>What is the color of the armchair in my 11 o'clock direction, blue or brown? <span style=\"color: green\">√</span></b><br> <b>Is it true the armchairs behind me are arranged in a straight line? <span style=\"color: green\">√</span></b><br>", "/apps/resource/tutorial/q_example_2.png", "920px", "500px");
+        this.insert_one_image_entry_with_description("<b>Context</b>: I'm watering the plant and standing by a round table <br> <b>How many armchairs are there in the room? <span style=\"color: red\">×</span></b><br> <b>How many armchairs are there on my left? <span style=\"color: green\">√</span></b><br> <b>What is the color of the armchair in my 11 o'clock direction, blue or brown? <span style=\"color: green\">√</span></b><br> <b>Is it true the armchairs behind me are arranged in a straight line? <span style=\"color: green\">√</span></b><br>", "/apps/resource/tutorial/q_example_2.png", "920px", "500px");
 
-    //     this.insert_one_image_entry_with_description("<b>Context</b>: I'm sitting on the couch in between two pillows, and the TV and an ottoman are both in front of me <br> <b> Is there a glass table in the room? <span style=\"color: red\">×</span></b><br> <b>Which is larger, the golden table or the glass table? <span style=\"color: red\">×</span></b><br> <b> How many ottomans are there in the room? <span style=\"color: red\">×</span></b><br> <b>How many stools are there on my left? <span style=\"color: green\">√</span></b><br> <b>What is the color of the pillow in my 2 o'clock direction? <span style=\"color: green\">√</span></b><br>", "/apps/resource/tutorial/q_example_3.png", "920px", "500px");
-    // }
+        this.insert_one_image_entry_with_description("<b>Context</b>: I'm sitting on the couch in between two pillows, and the TV and an ottoman are both in front of me <br> <b> Is there a glass table in the room? <span style=\"color: red\">×</span></b><br> <b>Which is larger, the golden table or the glass table? <span style=\"color: red\">×</span></b><br> <b> How many ottomans are there in the room? <span style=\"color: red\">×</span></b><br> <b>How many stools are there on my left? <span style=\"color: green\">√</span></b><br> <b>What is the color of the pillow in my 2 o'clock direction? <span style=\"color: green\">√</span></b><br>", "/apps/resource/tutorial/q_example_3.png", "920px", "500px");
+    }
 
-    // render_page_7() {
-    //     this.insert_page_title("About step 4(cont'd): How to ask a question -- free-form question");
+    render_page_7() {
+        this.insert_page_title("About step 4(cont'd): How to ask a question -- free-form question");
 
-    //     this.insert_one_text_entry("You may ask questions about object <b>category</b>");
-    //     this.insert_one_image_entry_with_description("<b>Context</b>: I'm facing the sink and there is a towel on my right. <br> <b>What is standing on the floor on my left? -- trash can</b> <br><b>Is there a towel on my right? -- yes</b> <br><b>What is in my 4 o'clock direction? -- door</b>", "/apps/resource/tutorial/desc_example_3.png", "920px", "550px")
+        this.insert_one_text_entry("You may ask questions about object <b>category</b>");
+        this.insert_one_image_entry_with_description("<b>Context</b>: I'm facing the sink and there is a towel on my right. <br> <b>What is standing on the floor on my left? -- trash can</b> <br><b>Is there a towel on my right? -- yes</b> <br><b>What is in my 4 o'clock direction? -- door</b>", "/apps/resource/tutorial/desc_example_3.png", "920px", "550px")
 
-    //     this.insert_one_text_entry("You may ask questions about <b>counting</b>");
-    //     this.insert_one_image_entry_with_description("<b>Context</b>: I'm sitting on the couch in between two pillows, and the TV and an ottoman are both in front of me <br><b>How many pillowss are there on my right? -- three</b> <br><b>Are there two glass tables in front of me? -- no</b>", "/apps/resource/tutorial/q_example_3.png", "920px", "500px");
+        this.insert_one_text_entry("You may ask questions about <b>counting</b>");
+        this.insert_one_image_entry_with_description("<b>Context</b>: I'm sitting on the couch in between two pillows, and the TV and an ottoman are both in front of me <br><b>How many pillowss are there on my right? -- three</b> <br><b>Are there two glass tables in front of me? -- no</b>", "/apps/resource/tutorial/q_example_3.png", "920px", "500px");
 
-    //     this.insert_one_text_entry("You may ask questions about object <b>properties</b> (color, shape, pose, containing, etc)");
-    //     this.insert_one_image_entry_with_description("<b>Context</b>: I'm sitting on an armchair, facing a green ottoman and there is a opened door behind me <br><b> What is the color of the cabinet behind me? -- pink</b> <br><b>Does the ottoman in front of me have a round shape? -- no</b> <br><b>Is the door in my 4 o'clock direction opened? -- no</b> <br><b>How many pillowss are there on the couch on my right? -- two</b>", "/apps/resource/tutorial/q_example_4.png", "920px", "800px");
+        this.insert_one_text_entry("You may ask questions about object <b>properties</b> (color, shape, pose, containing, etc)");
+        this.insert_one_image_entry_with_description("<b>Context</b>: I'm sitting on an armchair, facing a green ottoman and there is a opened door behind me <br><b> What is the color of the cabinet behind me? -- pink</b> <br><b>Does the ottoman in front of me have a round shape? -- no</b> <br><b>Is the door in my 4 o'clock direction opened? -- no</b> <br><b>How many pillowss are there on the couch on my right? -- two</b>", "/apps/resource/tutorial/q_example_4.png", "920px", "800px");
 
-    //     this.insert_one_text_entry("You may ask questions about <b>spatial relations and layouts</b>");
-    //     this.insert_one_image_entry_with_description("<b>Context</b>: I'm playing ping-pong where there is a rug in my 8 o'clock direction <br><b>Which one is closer to me, an armchair or a door? -- armchair</b> <br><b>How many couches can I see? -- two</b> <br><b>Which direction should I go if I want to go upstairs? -- left</b> <br><b>Is there a door on my left? -- yes</b> <br><b>Can I see any trashcan? -- no</b> <br><b>What will I end up with if I keep walking left? -- door</b> <br><b>Can I open any door without moving? -- no</b>", "/apps/resource/tutorial/q_example_5.png", "920px", "800px");
-    // }
+        this.insert_one_text_entry("You may ask questions about <b>spatial relations and layouts</b>");
+        this.insert_one_image_entry_with_description("<b>Context</b>: I'm playing ping-pong where there is a rug in my 8 o'clock direction <br><b>Which one is closer to me, an armchair or a door? -- armchair</b> <br><b>How many couches can I see? -- two</b> <br><b>Which direction should I go if I want to go upstairs? -- left</b> <br><b>Is there a door on my left? -- yes</b> <br><b>Can I see any trashcan? -- no</b> <br><b>What will I end up with if I keep walking left? -- door</b> <br><b>Can I open any door without moving? -- no</b>", "/apps/resource/tutorial/q_example_5.png", "920px", "800px");
+    }
 
     // page 8 is about commonsense question
 
