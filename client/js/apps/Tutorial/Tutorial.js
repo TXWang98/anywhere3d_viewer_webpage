@@ -118,7 +118,7 @@ class GenericTutorial {
 
        
         this.insert_one_text_entry("<b>4. Referring Expression Editing Box</b>: For each scene, there are 10 interactive slots for human annotation, labeled from '00' to '09'. To begin, click on the ID you wish to annotate. After clicking the corresponding ID, a message will appear below indicating whether the selected ID already has existing annotations. You may then choose to start a new annotation or load a saved one if it exists. The interactive slot allows you to manually revise the referring expressions. After completing the bounding box, cylinder, and referring expression annotations, click 'Save Current ID Annotations' to save your work.");
-        this.insert_one_image_entry("/apps/resource/tutorial/expression_editing_box.png", "1000px", "100px");  
+        this.insert_one_image_entry("/apps/resource/tutorial/expression_editing_box.png", "1500px", "200px");  
     }
 
     // render_page_2() {
