@@ -129,7 +129,7 @@ class MeshViewer {
 		// 	console.error('Error loading referring expressions & scenegraphs placeholder JSON file:', error)
 		// })
 
-		const ref_exp_graph_url = `/resource/ref_exp_graphs/${this.resources.datasetname}/ref_exp_graphs/${this.resources.scene_id}/${this.resources.ref_exp_graphs}`;
+		const ref_exp_graph_url = `/resource/ref_exp_graphs/${this.resources.datasetname}/${this.resources.scene_id}/${this.resources.ref_exp_graphs}`;
 
 		fetch(ref_exp_graph_url).then(response => {
 			if (!response.ok) {
@@ -182,7 +182,7 @@ class MeshViewer {
 			// window.load_ply_file(path.join("/apps/resource/mesh/", this.resources.datasetname, this.resources.scene_id, this.resources.scene_mesh)),
 			// window.load_ply_file("/apps/resource/camera"),
 			
-			window.load_ply_file("/resource/mesh/" + this.resources.datasetname + "/scans/" +  this.resources.scene_id + "/" + this.resources.scene_mesh),
+			window.load_ply_file("/resource/mesh/" + this.resources.datasetname + "/" +  this.resources.scene_id + "/" + this.resources.scene_mesh),
 			window.load_ply_file("/resource/camera")
 		];
 		
@@ -191,7 +191,7 @@ class MeshViewer {
 			//console.log("object length", this.resources.scene_object.length)
 			promises.push(
 				// window.load_ply_file(path.join("/apps/resource/object/", this.resources.datasetname, this.resources.scene_id, this.resources.scene_object[i]))
-				window.load_ply_file("/resource/object/" + this.resources.datasetname + "/objects/" + this.resources.scene_id + "/" + this.resources.scene_object[i])
+				window.load_ply_file("/resource/object/" + this.resources.datasetname + "/" + this.resources.scene_id + "/" + this.resources.scene_object[i])
 			)
 		}
 		this.loading_bar.style.width = "15%";
