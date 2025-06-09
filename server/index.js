@@ -202,16 +202,18 @@ router.get("/resource/mesh/:datasetname/:scene_id/:scene_mesh", function(req, re
 	//console.log("req in scene mesh",req)
 	//console.log("__dirname", __dirname) 
 	//output: __dirname /home/wangtianxu/SQA3D_Viewer/server
-	let aliyun_scans_url = `https://anywhere3d-pointcloud.oss-cn-hongkong.aliyuncs.com/${req.params.datasetname}/scans/${req.params.scene_id}/${req.params.scene_mesh}`;
-	res.redirect(aliyun_scans_url)
+	// let aliyun_scans_url = `https://anywhere3d-pointcloud.oss-cn-hongkong.aliyuncs.com/${req.params.datasetname}/scans/${req.params.scene_id}/${req.params.scene_mesh}`;
+	let R2_scans_url = `https://pub-8aceb412ffb14841a9f89ba14d2aace1.r2.dev/${req.params.datasetname}/scans/${req.params.scene_id}/${req.params.scene_mesh}`;
+	res.redirect(R2_scans_url)
 	// let routed = path.join(__dirname, 'static', req.params.datasetname, 'scans', req.params.scene_id, req.params.scene_mesh);
 	// res.sendFile(routed);
 });
 
 router.get("/resource/object/:datasetname/:scene_id/:object_mesh", function(req, res) {
 
-	let aliyun_objects_url = `https://anywhere3d-pointcloud.oss-cn-hongkong.aliyuncs.com/${req.params.datasetname}/objects/${req.params.scene_id}/${req.params.object_mesh}`;
-	res.redirect(aliyun_objects_url)
+	// let aliyun_objects_url = `https://anywhere3d-pointcloud.oss-cn-hongkong.aliyuncs.com/${req.params.datasetname}/objects/${req.params.scene_id}/${req.params.object_mesh}`;
+	let R2_objects_url = `https://pub-8aceb412ffb14841a9f89ba14d2aace1.r2.dev/${req.params.datasetname}/objects/${req.params.scene_id}/${req.params.object_mesh}`;
+	res.redirect(R2_objects_url)
 
 	// let routed = path.join(__dirname, 'static', req.params.datasetname, 'objects', req.params.scene_id, req.params.object_mesh);
 	// res.sendFile(routed);
@@ -231,8 +233,9 @@ router.get("/resource/referring_expressions/:datasetname/:scene_id/:referring_ex
 */
 
 router.get("/resource/ref_exp_graphs/:datasetname/:scene_id/:ref_exp_graphs", function(req, res) {
-	let aliyun_ref_exp_graphs_url = `https://anywhere3d-pointcloud.oss-cn-hongkong.aliyuncs.com/${req.params.datasetname}/ref_exp_graphs/${req.params.scene_id}/${req.params.ref_exp_graphs}`;
-	res.redirect(aliyun_ref_exp_graphs_url)
+	// let aliyun_ref_exp_graphs_url = `https://anywhere3d-pointcloud.oss-cn-hongkong.aliyuncs.com/${req.params.datasetname}/ref_exp_graphs/${req.params.scene_id}/${req.params.ref_exp_graphs}`;
+	let R2_ref_exp_graphs_url = `https://pub-8aceb412ffb14841a9f89ba14d2aace1.r2.dev/${req.params.datasetname}/ref_exp_graphs/${req.params.scene_id}/${req.params.ref_exp_graphs}`;
+	res.redirect(R2_ref_exp_graphs_url)
 	// let routed = path.join(__dirname, 'static', req.params.datasetname, 'ref_exp_graphs', req.params.scene_id, req.params.ref_exp_graphs);
 	// res.sendFile(routed);
 });
