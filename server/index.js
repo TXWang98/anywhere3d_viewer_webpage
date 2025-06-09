@@ -10,6 +10,7 @@ var express = require("express");
 var async = require('async');
 const util = require('util');
 const url = require("url");
+const fetch = require('node-fetch');
 
 var app = express();
 var router = express.Router();
@@ -198,47 +199,96 @@ router.get("/resource/camera", function(req, res) {
 	res.sendFile(routed);
 });
 
-router.get("/resource/mesh/:datasetname/:scene_id/:scene_mesh", function(req, res) {
-	//console.log("req in scene mesh",req)
-	//console.log("__dirname", __dirname) 
-	//output: __dirname /home/wangtianxu/SQA3D_Viewer/server
-	// let aliyun_scans_url = `https://anywhere3d-pointcloud.oss-cn-hongkong.aliyuncs.com/${req.params.datasetname}/scans/${req.params.scene_id}/${req.params.scene_mesh}`;
-	let R2_scans_url = `https://pub-8aceb412ffb14841a9f89ba14d2aace1.r2.dev/${req.params.datasetname}/scans/${req.params.scene_id}/${req.params.scene_mesh}`;
-	res.redirect(R2_scans_url)
-	// let routed = path.join(__dirname, 'static', req.params.datasetname, 'scans', req.params.scene_id, req.params.scene_mesh);
-	// res.sendFile(routed);
+// router.get("/resource/mesh/:datasetname/:scene_id/:scene_mesh", function(req, res) {
+// 	//console.log("req in scene mesh",req)
+// 	//console.log("__dirname", __dirname) 
+// 	//output: __dirname /home/wangtianxu/SQA3D_Viewer/server
+// 	// let aliyun_scans_url = `https://anywhere3d-pointcloud.oss-cn-hongkong.aliyuncs.com/${req.params.datasetname}/scans/${req.params.scene_id}/${req.params.scene_mesh}`;
+// 	let R2_scans_url = `https://pub-8aceb412ffb14841a9f89ba14d2aace1.r2.dev/${req.params.datasetname}/scans/${req.params.scene_id}/${req.params.scene_mesh}`;
+// 	res.redirect(R2_scans_url)
+// });
+
+
+router.get("/resource/mesh/:datasetname/:scene_id/:scene_mesh", async function (req, res) {
+	const url = `https://pub-8aceb412ffb14841a9f89ba14d2aace1.r2.dev/${req.params.datasetname}/scans/${req.params.scene_id}/${req.params.scene_mesh}`;
+
+	try {
+		const response = await fetch(url);
+		if (!response.ok) {
+			return res.status(response.status).send("Failed to fetch from R2");
+		}
+
+		const contentType = response.headers.get("content-type");
+		res.set("Access-Control-Allow-Origin", "*");
+		res.set("Content-Type", contentType);
+
+		response.body.pipe(res);  // 关键是这里
+	} catch (err) {
+		res.status(500).send("Proxy error: " + err.message);
+	}
 });
 
-router.get("/resource/object/:datasetname/:scene_id/:object_mesh", function(req, res) {
 
-	// let aliyun_objects_url = `https://anywhere3d-pointcloud.oss-cn-hongkong.aliyuncs.com/${req.params.datasetname}/objects/${req.params.scene_id}/${req.params.object_mesh}`;
-	let R2_objects_url = `https://pub-8aceb412ffb14841a9f89ba14d2aace1.r2.dev/${req.params.datasetname}/objects/${req.params.scene_id}/${req.params.object_mesh}`;
-	res.redirect(R2_objects_url)
 
-	// let routed = path.join(__dirname, 'static', req.params.datasetname, 'objects', req.params.scene_id, req.params.object_mesh);
-	// res.sendFile(routed);
+// router.get("/resource/object/:datasetname/:scene_id/:object_mesh", function(req, res) {
+
+// 	// let aliyun_objects_url = `https://anywhere3d-pointcloud.oss-cn-hongkong.aliyuncs.com/${req.params.datasetname}/objects/${req.params.scene_id}/${req.params.object_mesh}`;
+// 	let R2_objects_url = `https://pub-8aceb412ffb14841a9f89ba14d2aace1.r2.dev/${req.params.datasetname}/objects/${req.params.scene_id}/${req.params.object_mesh}`;
+// 	res.redirect(R2_objects_url)
+
+// });
+
+
+router.get("/resource/object/:datasetname/:scene_id/:object_mesh", async function (req, res) {
+	const url = `https://pub-8aceb412ffb14841a9f89ba14d2aace1.r2.dev/${req.params.datasetname}/objects/${req.params.scene_id}/${req.params.object_mesh}`;
+
+	try {
+		const response = await fetch(url);
+		if (!response.ok) {
+			return res.status(response.status).send("Failed to fetch from R2");
+		}
+
+		const contentType = response.headers.get("content-type");
+		res.set("Access-Control-Allow-Origin", "*");
+		res.set("Content-Type", contentType);
+
+		response.body.pipe(res);  // 将 R2 返回的数据传给客户端
+	} catch (err) {
+		res.status(500).send("Proxy error: " + err.message);
+	}
 });
 
-/*
-router.get("/resource/scenegraph/:datasetname/:scene_id/:scenegraph", function(req, res) {
-	let routed = path.join(__dirname, 'static', req.params.datasetname, 'scenegraphs', req.params.scene_id, req.params.scenegraph);
-	res.sendFile(routed);
+
+
+// router.get("/resource/ref_exp_graphs/:datasetname/:scene_id/:ref_exp_graphs", function(req, res) {
+// 	// let aliyun_ref_exp_graphs_url = `https://anywhere3d-pointcloud.oss-cn-hongkong.aliyuncs.com/${req.params.datasetname}/ref_exp_graphs/${req.params.scene_id}/${req.params.ref_exp_graphs}`;
+// 	let R2_ref_exp_graphs_url = `https://pub-8aceb412ffb14841a9f89ba14d2aace1.r2.dev/${req.params.datasetname}/ref_exp_graphs/${req.params.scene_id}/${req.params.ref_exp_graphs}`;
+// 	res.redirect(R2_ref_exp_graphs_url)
+
+// });
+
+
+router.get("/resource/ref_exp_graphs/:datasetname/:scene_id/:ref_exp_graphs", async function (req, res) {
+	const url = `https://pub-8aceb412ffb14841a9f89ba14d2aace1.r2.dev/${req.params.datasetname}/ref_exp_graphs/${req.params.scene_id}/${req.params.ref_exp_graphs}`;
+
+	try {
+		const response = await fetch(url);
+		if (!response.ok) {
+			return res.status(response.status).send("Failed to fetch from R2");
+		}
+
+		const contentType = response.headers.get("content-type") || "application/json";
+		res.set("Access-Control-Allow-Origin", "*");
+		res.set("Content-Type", contentType);
+
+		const body = await response.json();  // 如果是 JSON，也可以用 .json()
+		res.send(body);
+	} catch (err) {
+		res.status(500).send("Proxy error: " + err.message);
+	}
 });
 
 
-router.get("/resource/referring_expressions/:datasetname/:scene_id/:referring_expressions", function(req, res) {
-	let routed = path.join(__dirname, 'static', req.params.datasetname, 'referring_expressions', req.params.scene_id, req.params.referring_expressions);
-	res.sendFile(routed);
-});
-*/
-
-router.get("/resource/ref_exp_graphs/:datasetname/:scene_id/:ref_exp_graphs", function(req, res) {
-	// let aliyun_ref_exp_graphs_url = `https://anywhere3d-pointcloud.oss-cn-hongkong.aliyuncs.com/${req.params.datasetname}/ref_exp_graphs/${req.params.scene_id}/${req.params.ref_exp_graphs}`;
-	let R2_ref_exp_graphs_url = `https://pub-8aceb412ffb14841a9f89ba14d2aace1.r2.dev/${req.params.datasetname}/ref_exp_graphs/${req.params.scene_id}/${req.params.ref_exp_graphs}`;
-	res.redirect(R2_ref_exp_graphs_url)
-	// let routed = path.join(__dirname, 'static', req.params.datasetname, 'ref_exp_graphs', req.params.scene_id, req.params.ref_exp_graphs);
-	// res.sendFile(routed);
-});
 
 
 router.get("/resource/aggr/:scene_id/:seg_aggr", function(req, res) {

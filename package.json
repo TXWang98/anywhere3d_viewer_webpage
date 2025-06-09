@@ -29,6 +29,7 @@
     "fs": "0.0.1-security",
     "mathjs": "^4.4.2",
     "mongodb": "^4.4.1",
+    "node-fetch": "^3.3.2",
     "npm-install-missing": "^0.1.4",
     "numeric": "^1.2.6",
     "plotly.js": "^1.42.5",
