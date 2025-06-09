@@ -129,7 +129,7 @@ class MeshViewer {
 		// 	console.error('Error loading referring expressions & scenegraphs placeholder JSON file:', error)
 		// })
 
-		const ref_exp_graph_url = `https://anywhere3d-pointcloud.oss-cn-hongkong.aliyuncs.com/${this.resources.datasetname}/ref_exp_graphs/${this.resources.scene_id}/${this.resources.ref_exp_graphs}`;
+		const ref_exp_graph_url = `https://pub-8aceb412ffb14841a9f89ba14d2aace1.r2.dev/${this.resources.datasetname}/ref_exp_graphs/${this.resources.scene_id}/${this.resources.ref_exp_graphs}`;
 
 		fetch(ref_exp_graph_url).then(response => {
 			if (!response.ok) {
@@ -182,8 +182,8 @@ class MeshViewer {
 			// window.load_ply_file(path.join("/apps/resource/mesh/", this.resources.datasetname, this.resources.scene_id, this.resources.scene_mesh)),
 			// window.load_ply_file("/apps/resource/camera"),
 			
-			window.load_ply_file("https://anywhere3d-pointcloud.oss-cn-hongkong.aliyuncs.com/" + this.resources.datasetname + "/scans/" +  this.resources.scene_id + "/" + this.resources.scene_mesh),
-			window.load_ply_file("https://anywhere3d-pointcloud.oss-cn-hongkong.aliyuncs.com/camera.ply")
+			window.load_ply_file("https://pub-8aceb412ffb14841a9f89ba14d2aace1.r2.dev/" + this.resources.datasetname + "/scans/" +  this.resources.scene_id + "/" + this.resources.scene_mesh),
+			window.load_ply_file("https://pub-8aceb412ffb14841a9f89ba14d2aace1.r2.dev/camera.ply")
 		];
 		
 		//console.log("object length", this.resources.scene_object.length)
@@ -191,7 +191,7 @@ class MeshViewer {
 			//console.log("object length", this.resources.scene_object.length)
 			promises.push(
 				// window.load_ply_file(path.join("/apps/resource/object/", this.resources.datasetname, this.resources.scene_id, this.resources.scene_object[i]))
-				window.load_ply_file("https://anywhere3d-pointcloud.oss-cn-hongkong.aliyuncs.com/" + this.resources.datasetname + "/objects/" + this.resources.scene_id + "/" + this.resources.scene_object[i])
+				window.load_ply_file("https://pub-8aceb412ffb14841a9f89ba14d2aace1.r2.dev/" + this.resources.datasetname + "/objects/" + this.resources.scene_id + "/" + this.resources.scene_object[i])
 			)
 		}
 		this.loading_bar.style.width = "15%";
