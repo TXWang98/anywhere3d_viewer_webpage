@@ -52,6 +52,7 @@ app.use(express.static(path.join(__dirname, "/static")));
 app.use(express.static(path.join(__dirname, "/../client")));
 app.use(express.static(path.join(__dirname, "/../node_modules")));
 app.use(express.static(path.join(__dirname, "/../resources")));
+app.use('/', router);
 
 
 
